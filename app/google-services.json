@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "804348044123",
+    "firebase_url": "https://androidmessanger-3cdfd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "androidmessanger-3cdfd",
+    "storage_bucket": "androidmessanger-3cdfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804348044123:android:42c4f99033da2bd0a6707e",
+        "android_client_info": {
+          "package_name": "com.example.androidmessanger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwaALu4m4jLofd82SSofFpCZeL5k6gb6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
