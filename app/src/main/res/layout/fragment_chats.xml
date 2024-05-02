@@ -6,13 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".bottomnav.chats.ChatsFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FragmentChat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/chats_rv"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
