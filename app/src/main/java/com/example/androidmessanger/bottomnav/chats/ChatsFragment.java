@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,10 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.androidmessanger.chats.Chat;
 import com.example.androidmessanger.chats.ChatsAdapter;
 import com.example.androidmessanger.databinding.FragmentChatsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ChatsFragment extends Fragment {
     private FragmentChatsBinding binding;
@@ -25,15 +34,45 @@ public class ChatsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentChatsBinding.inflate(inflater,container,false);
+
         loadChats();
+
         return binding.getRoot();
     }
 
     private void  loadChats(){
-        ArrayList<Chat> chats = new ArrayList<Chat>();
-        chats.add(new Chat("1233","tetqwe1","12312312313","12312312313"));
-        chats.add(new Chat("1232","tetqwe2","123123123132","123123123132"));
-        chats.add(new Chat("1231","tetqwe3","123123123133","123123123133"));
+        ArrayList<Chat> chats = new ArrayList<>();
+
+        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new ValueEventListener() {//тут ужасти снапшот для всей базы данных но так делать нельхя очень ресурсёмко но мне по барабану
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String chatsStr = Objects.requireNonNull(snapshot.child("Users").child(uid).child("chats").getValue().toString());
+                String[] chatsIds = chatsStr.split(",");
+
+                for(String chatId: chatsIds){
+                    DataSnapshot chatSnapshot = snapshot.child("Chats").child(chatId);
+                    String userId1 = snapshot.child("chats").child(chatId).child("user1").getValue().toString();
+                    String userId2 = snapshot.child("chats").child(chatId).child("user2").getValue().toString();
+
+                    String chatUserId = (uid.equals(userId1))? userId2: userId1;
+                    String chatName = Objects.requireNonNull(snapshot.child("Users").child(chatUserId).child("username").getValue()).toString();
+
+                    Chat chat = new Chat(chatId,chatName,userId1,userId2);
+                    chats.add(chat);
+                }
+
+                binding.chatsRv.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.chatsRv.setAdapter(new ChatsAdapter(chats));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(),"Опять чет пошло не так", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         binding.chatsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.chatsRv.setAdapter(new ChatsAdapter(chats));
     }
