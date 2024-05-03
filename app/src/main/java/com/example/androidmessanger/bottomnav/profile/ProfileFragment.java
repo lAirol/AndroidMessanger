@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentProfileBinding.inflate(inflater,container,false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
 
         loadUserInfo();
 
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
 
                         binding.usernameTv.setText(username);
 
-                        if(!profileImage.isEmpty()){
+                        if (!profileImage.isEmpty()){
                             Glide.with(getContext()).load(profileImage).into(binding.profileImageView);
                         }
                     }
@@ -120,15 +120,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void uploadImage(){
-
-        if(filePath!=null){
+        if (filePath!=null){
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             FirebaseStorage.getInstance().getReference().child("images/"+uid)
                     .putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getContext(),"Фото загруэено", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Photo upload complete", Toast.LENGTH_SHORT).show();
 
                             FirebaseStorage.getInstance().getReference().child("images/"+uid).getDownloadUrl()
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -141,7 +140,5 @@ public class ProfileFragment extends Fragment {
                         }
                     });
         }
-
-
     }
 }

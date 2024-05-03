@@ -1,9 +1,9 @@
 package com.example.androidmessanger.chats;
 
 public class Chat {
-    private String chat_id,chat_name, userId1, userId2;
+    private String chat_id, chat_name, userId1, userId2;
 
-    public Chat(String chat_id, String chat_name, String userId1, String getUserId2) {
+    public Chat(String chat_id, String chat_name, String userId1, String userId2) {
         this.chat_id = chat_id;
         this.chat_name = chat_name;
         this.userId1 = userId1;

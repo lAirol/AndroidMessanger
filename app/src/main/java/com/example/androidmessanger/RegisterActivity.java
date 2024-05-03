@@ -34,11 +34,11 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.singUpBtn.setOnClickListener(new View.OnClickListener() {
+        binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (binding.emailEt.getText().toString().isEmpty() || binding.passwordEt.getText().toString().isEmpty()
-                        || binding.usernameEt.getText().toString().isEmpty()){
+                    || binding.usernameEt.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }else{
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(binding.emailEt.getText().toString(), binding.passwordEt.getText().toString())
@@ -50,8 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         userInfo.put("email", binding.emailEt.getText().toString());
                                         userInfo.put("username", binding.usernameEt.getText().toString());
                                         userInfo.put("profileImage", "");
+                                        userInfo.put("chats", "");
 
-                                        FirebaseDatabase.getInstance().getReference().child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                        FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .setValue(userInfo);
 
                                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));

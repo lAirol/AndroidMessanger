@@ -14,8 +14,10 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
 
     CircleImageView profileImage_iv;
     TextView username_tv;
+
     public UserViewHolder(@NonNull View itemView) {
         super(itemView);
+
         profileImage_iv = itemView.findViewById(R.id.profile_iv);
         username_tv = itemView.findViewById(R.id.username_tv);
     }

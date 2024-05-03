@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidmessanger.R;
+import com.example.androidmessanger.utils.ChatUtil;
 
 import java.util.ArrayList;
 
@@ -19,21 +20,27 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public UsersAdapter(ArrayList<User> users){
         this.users = users;
     }
+
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_item_rv,parent,false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_item_rv, parent, false);
         return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        holder.username_tv.setText(users.get(position).username);
+        User user = users.get(position);
 
-        if(!users.get(position).profileImage.isEmpty()){
-                Glide.with(holder.itemView.getContext()).load(users.get(position).profileImage).into(holder.profileImage_iv);
+        holder.username_tv.setText(user.username);
+
+        if (!user.profileImage.isEmpty()){
+            Glide.with(holder.itemView.getContext()).load(user.profileImage).into(holder.profileImage_iv);
         }
+
+        holder.itemView.setOnClickListener(view -> {
+            ChatUtil.createChat(user);
+        });
     }
 
     @Override

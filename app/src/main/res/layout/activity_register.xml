@@ -130,7 +130,7 @@
 
 
     <Button
-        android:id="@+id/sing_up_btn"
+        android:id="@+id/sign_up_btn"
         android:layout_width="268dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/Blue"

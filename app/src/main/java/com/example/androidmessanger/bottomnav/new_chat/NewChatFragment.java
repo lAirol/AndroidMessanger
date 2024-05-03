@@ -30,7 +30,7 @@ public class NewChatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentNewChatBinding.inflate(inflater,container,false);
+        binding = FragmentNewChatBinding.inflate(inflater, container, false);
 
         loadUsers();
 
@@ -42,20 +42,20 @@ public class NewChatFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot userSnapShot:snapshot.getChildren()){
-
-                    if(userSnapShot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                for (DataSnapshot userSnapshot : snapshot.getChildren()){
+                    if (userSnapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                         continue;
                     }
 
-                    String username =  userSnapShot.child("username").getValue().toString();
-                    String profileImage = userSnapShot.child("profileImage").getValue().toString();
+                    String uid = userSnapshot.getKey();
+                    String username = userSnapshot.child("username").getValue().toString();
+                    String profileImage = userSnapshot.child("profileImage").getValue().toString();
 
-                    users.add(new User(username,profileImage));
+                    users.add(new User(uid, username, profileImage));
                 }
 
                 binding.usersRv.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.usersRv.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+                binding.usersRv.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
                 binding.usersRv.setAdapter(new UsersAdapter(users));
             }
 
